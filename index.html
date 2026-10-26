@@ -76,7 +76,12 @@ const API_URL = 'https://script.google.com/macros/s/AKfycbzvEraBJiGktKQKXW8iXzB4
 
 // Add product image URLs in the image fields when available.
 const products = [
-{id:'sunmi_t2s_single',name:'Sunmi T2s Single Screen',group:'hardware',image:''},
+{id:'sunmi_t2s_single',name:'Sunmi T2s Single Screen',group:'hardware',image:'{
+  id: 'sunmi_t2s_dual',
+  name: 'Sunmi T2s Dual Screen',
+  group: 'hardware',
+  image: 'product-images/sunmi-t2s-dual.jpg'
+}'},
 {id:'sunmi_t2s_dual',name:'Sunmi T2s Dual Screen',group:'hardware',image:''},
 {id:'imin_swan_1',name:'iMin Swan 1',group:'hardware',image:''},
 {id:'sunmi_c_pad_no_base',name:'Sunmi C-Pad Tablet (No Base)',group:'hardware',image:''},
