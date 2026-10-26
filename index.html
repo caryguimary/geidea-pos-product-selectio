@@ -17,7 +17,7 @@
     }
 
     .wrap {
-      max-width: 1050px;
+      max-width: 1100px;
       margin: auto;
       padding: 24px 14px 50px;
     }
@@ -89,24 +89,25 @@
 
     .products {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap: 11px;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 12px;
     }
 
     .product {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       min-width: 0;
-      padding: 12px;
+      padding: 14px;
       border: 1px solid #e0e4e7;
       border-radius: 13px;
       background: #fff;
     }
 
+    /* Larger product photo area */
     .thumb {
-      width: 88px;
-      height: 88px;
+      width: 108px;
+      height: 108px;
       flex-shrink: 0;
       display: flex;
       align-items: center;
@@ -189,10 +190,24 @@
       overflow-wrap: anywhere;
     }
 
-    @media (max-width: 480px) {
-      header, .panel { padding: 16px; }
-      .product { padding: 9px; gap: 9px; }
-      .thumb { width: 70px; height: 70px; }
+    @media (max-width: 600px) {
+      header, .panel {
+        padding: 16px;
+      }
+
+      .products {
+        grid-template-columns: 1fr;
+      }
+
+      .product {
+        padding: 10px;
+        gap: 10px;
+      }
+
+      .thumb {
+        width: 84px;
+        height: 84px;
+      }
     }
   </style>
 </head>
@@ -290,12 +305,9 @@
 </div>
 
 <script>
-  // Google Apps Script connection
   const API_URL =
     'https://script.google.com/macros/s/AKfycbzvEraBJiGktKQKXW8iXzB4QiApfTz-CM31ZMrMWLzA1_U45iWalha0E4XfKgBPBpI-xg/exec';
 
-  // Product image paths are relative to this website.
-  // Only the Sunmi T2s Dual Screen currently has an assigned image.
   const products = [
     {
       id: 'sunmi_t2s_single',
@@ -383,7 +395,6 @@
     }
   ];
 
-  // Start every item at quantity zero.
   const quantities = Object.fromEntries(
     products.map(product => [product.id, 0])
   );
@@ -424,8 +435,8 @@
     name.className = 'prod-name';
     name.textContent = product.name;
 
-    const quantityControls = document.createElement('div');
-    quantityControls.className = 'qty';
+    const controls = document.createElement('div');
+    controls.className = 'qty';
 
     const minus = document.createElement('button');
     minus.type = 'button';
@@ -469,28 +480,28 @@
       setQuantity(input.value);
     });
 
-    quantityControls.append(minus, input, plus);
-    info.append(name, quantityControls);
+    controls.append(minus, input, plus);
+    info.append(name, controls);
     card.append(imageBox, info);
 
     return card;
   }
 
-  // Render all products.
   products.forEach(function (product) {
-    document.getElementById(product.group)
-      .appendChild(createProductCard(product));
+    const container = document.getElementById(product.group);
+
+    if (container) {
+      container.appendChild(createProductCard(product));
+    }
   });
 
   updateTotal();
 
-  // Send the selection to Google Apps Script.
   document.getElementById('form').addEventListener('submit', async function (event) {
     event.preventDefault();
 
     const status = document.getElementById('status');
     const button = document.getElementById('submitBtn');
-
     const businessName = document.getElementById('businessName').value.trim();
     const selectedPackage = document.querySelector(
       'input[name="packageType"]:checked'
@@ -512,10 +523,6 @@
     status.textContent = 'Sending your selection…';
 
     try {
-      /*
-       * no-cors prevents the browser from reading the Apps Script response.
-       * Therefore, a successful fetch does not confirm that the row was saved.
-       */
       await fetch(API_URL, {
         method: 'POST',
         mode: 'no-cors',
@@ -526,10 +533,10 @@
       });
 
       status.textContent =
-        'Request sent. Please verify that the submission appears in your Google Sheet.';
+        'Request sent. Check your Google Sheet to verify the submission was saved.';
     } catch (error) {
       status.textContent =
-        'Could not send the request. Check the Apps Script URL and deployment access settings.';
+        'Could not send the request. Check the Apps Script URL and deployment permissions.';
     } finally {
       button.disabled = false;
     }
