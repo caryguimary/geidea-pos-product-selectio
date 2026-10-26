@@ -1,208 +1,539 @@
 
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Geidea POS | Product Selection</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;background:#f4f6f7;color:#202124;font-family:Arial,sans-serif}
-.wrap{max-width:1050px;margin:auto;padding:24px 14px}
-header,.panel{background:#fff;border:1px solid #e0e4e7;border-radius:16px;padding:22px;margin-bottom:16px}
-.brand{color:#087b55;font-weight:800;letter-spacing:2px}
-h1{font-size:clamp(26px,4vw,36px)}
-p{color:#626873;line-height:1.5}
-label,.section-title{font-weight:700;display:block;margin-bottom:9px}
-input[type=text],textarea{width:100%;padding:12px;border:1px solid #cbd1d6;border-radius:9px;font:inherit}
-.packages,.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:11px}
-.package{border:1px solid #d8dce2;padding:13px;border-radius:11px;display:flex;gap:9px;cursor:pointer}
-.package:has(input:checked){border-color:#087b55;background:#f0faf6}
-h2{font-size:20px;margin:22px 0 12px}
-.product{border:1px solid #e0e4e7;border-radius:13px;padding:12px;display:flex;gap:12px;align-items:center}
-.thumb{width:82px;height:82px;border-radius:9px;background:#f0f2f4;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;color:#777;font-size:11px;text-align:center}
-.thumb img{width:100%;height:100%;object-fit:contain}
-.prod-info{flex:1;min-width:0}.prod-name{font-weight:700;line-height:1.3}
-.qty{display:flex;align-items:center;gap:7px;margin-top:10px}
-.qty button{width:31px;height:31px;border:1px solid #cbd1d6;border-radius:8px;background:#fff;font-size:19px;cursor:pointer}
-.qty input{width:46px;text-align:center;padding:6px 2px;border:1px solid #cbd1d6;border-radius:8px}
-.submit{border:0;border-radius:10px;background:#087b55;color:white;font-weight:700;padding:14px 20px;font-size:15px;cursor:pointer}
-.submit:disabled{opacity:.6}.note{font-size:12px;color:#777}
-.status{font-weight:600;margin-top:12px}
-@media(max-width:480px){header,.panel{padding:16px}.thumb{width:68px;height:68px}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Geidea POS | Product Selection</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #f4f6f7;
+      color: #202124;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .wrap {
+      max-width: 1050px;
+      margin: auto;
+      padding: 24px 14px 50px;
+    }
+
+    header, .panel {
+      background: #fff;
+      border: 1px solid #e0e4e7;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 16px;
+    }
+
+    .brand {
+      color: #087b55;
+      font-weight: 800;
+      letter-spacing: 2px;
+      font-size: 13px;
+    }
+
+    h1 {
+      font-size: clamp(26px, 4vw, 36px);
+      margin: 12px 0;
+    }
+
+    h2 {
+      font-size: 20px;
+      margin: 22px 0 12px;
+    }
+
+    p {
+      color: #626873;
+      line-height: 1.5;
+    }
+
+    label, .section-title {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 9px;
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd1d6;
+      border-radius: 9px;
+      font: inherit;
+    }
+
+    .packages {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+
+    .package {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      padding: 13px;
+      border: 1px solid #d8dce2;
+      border-radius: 11px;
+      cursor: pointer;
+    }
+
+    .package:has(input:checked) {
+      border-color: #087b55;
+      background: #f0faf6;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 11px;
+    }
+
+    .product {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid #e0e4e7;
+      border-radius: 13px;
+      background: #fff;
+    }
+
+    .thumb {
+      width: 88px;
+      height: 88px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 5px;
+      border-radius: 9px;
+      background: #f0f2f4;
+      color: #777;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .prod-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .prod-name {
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .qty {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-top: 10px;
+    }
+
+    .qty button {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #cbd1d6;
+      border-radius: 8px;
+      background: #fff;
+      font-size: 19px;
+      cursor: pointer;
+    }
+
+    .qty input {
+      width: 48px;
+      padding: 6px 2px;
+      border: 1px solid #cbd1d6;
+      border-radius: 8px;
+      text-align: center;
+      font: inherit;
+    }
+
+    .submit {
+      border: 0;
+      border-radius: 10px;
+      background: #087b55;
+      color: #fff;
+      padding: 14px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .submit:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .note {
+      color: #777;
+      font-size: 12px;
+    }
+
+    .status {
+      margin-top: 12px;
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 480px) {
+      header, .panel { padding: 16px; }
+      .product { padding: 9px; gap: 9px; }
+      .thumb { width: 70px; height: 70px; }
+    }
+  </style>
 </head>
+
 <body>
 <div class="wrap">
-<header>
-<div class="brand">GEIDEA POS</div>
-<h1>Select Your Preferred Products</h1>
-<p>Choose your package and the quantities of devices and accessories you need. Prices are not displayed.</p>
-</header>
 
-<form id="form">
-<section class="panel">
-<label for="businessName">Business Name *</label>
-<input id="businessName" required type="text" placeholder="Enter business name">
-<div style="height:20px"></div>
-<div class="section-title">Package Type *</div>
-<div class="packages">
-<label class="package"><input type="radio" name="packageType" value="Starter" required><span><strong>Starter</strong><br><small>Essential POS package</small></span></label>
-<label class="package"><input type="radio" name="packageType" value="Advance Inventory" required><span><strong>Advance Inventory</strong><br><small>POS with inventory features</small></span></label>
-<label class="package"><input type="radio" name="packageType" value="Pro Inventory + Order Integration" required><span><strong>Pro Inventory + Order Integration</strong><br><small>Inventory and order integrations</small></span></label>
-</div>
-</section>
+  <header>
+    <div class="brand">GEIDEA POS</div>
+    <h1>Select Your Preferred Products</h1>
+    <p>
+      Choose your package and the quantities of devices and accessories
+      your business may need. Prices are not displayed.
+    </p>
+  </header>
 
-<section class="panel">
-<h2>POS Hardware Devices</h2>
-<div id="hardware" class="products"></div>
-<h2>Kitchen Display &amp; POS Accessories</h2>
-<div id="accessories" class="products"></div>
-</section>
+  <form id="form">
 
-<section class="panel">
-<label for="notes">Additional Requirements (optional)</label>
-<textarea id="notes" rows="3" placeholder="Any special requirements or questions"></textarea>
-<p id="total">0 units selected</p>
-<button id="submitBtn" class="submit" type="submit">Submit Product Selection</button>
-<div id="status" class="status" role="status"></div>
-<p class="note">Your selection will be shared with the Geidea POS team for review.</p>
-</section>
-</form>
+    <section class="panel">
+      <label for="businessName">Business Name *</label>
+      <input
+        id="businessName"
+        name="businessName"
+        type="text"
+        placeholder="Enter business name"
+        required
+      >
+
+      <div style="height: 20px;"></div>
+      <div class="section-title">Package Type *</div>
+
+      <div class="packages">
+        <label class="package">
+          <input type="radio" name="packageType" value="Starter" required>
+          <span>
+            <strong>Starter</strong><br>
+            <small>Essential POS package</small>
+          </span>
+        </label>
+
+        <label class="package">
+          <input type="radio" name="packageType" value="Advance Inventory" required>
+          <span>
+            <strong>Advance Inventory</strong><br>
+            <small>POS with inventory features</small>
+          </span>
+        </label>
+
+        <label class="package">
+          <input
+            type="radio"
+            name="packageType"
+            value="Pro Inventory + Order Integration"
+            required
+          >
+          <span>
+            <strong>Pro Inventory + Order Integration</strong><br>
+            <small>Inventory and order integrations</small>
+          </span>
+        </label>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>POS Hardware Devices</h2>
+      <div id="hardware" class="products"></div>
+
+      <h2>Kitchen Display &amp; POS Accessories</h2>
+      <div id="accessories" class="products"></div>
+    </section>
+
+    <section class="panel">
+      <label for="notes">Additional Requirements (optional)</label>
+      <textarea
+        id="notes"
+        name="notes"
+        rows="3"
+        placeholder="Any special requirements or questions"
+      ></textarea>
+
+      <p id="total">0 units selected</p>
+
+      <button id="submitBtn" class="submit" type="submit">
+        Submit Product Selection
+      </button>
+
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+
+      <p class="note">
+        Please verify that your submission has been recorded before closing this page.
+      </p>
+    </section>
+
+  </form>
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbzvEraBJiGktKQKXW8iXzB4QiApfTz-CM31ZMrMWLzA1_U45iWalha0E4XfKgBPBpI-xg/exec';
+  // Google Apps Script connection
+  const API_URL =
+    'https://script.google.com/macros/s/AKfycbzvEraBJiGktKQKXW8iXzB4QiApfTz-CM31ZMrMWLzA1_U45iWalha0E4XfKgBPBpI-xg/exec';
 
-// Add product image URLs in the image fields when available.
-const products = [
-{id:'sunmi_t2s_single',name:'Sunmi T2s Single Screen',group:'hardware',image:'{
-  id: 'sunmi_t2s_dual',
-  name: 'Sunmi T2s Dual Screen',
-  group: 'hardware',
-  image: 'product-images/sunmi-t2s-dual.jpg'
-}'},
-{id:'sunmi_t2s_dual',name:'Sunmi T2s Dual Screen',group:'hardware',image:''},
-{id:'imin_swan_1',name:'iMin Swan 1',group:'hardware',image:''},
-{id:'sunmi_c_pad_no_base',name:'Sunmi C-Pad Tablet (No Base)',group:'hardware',image:''},
-{id:'sunmi_c_pad_with_base',name:'Sunmi C-Pad Tablet (With Base)',group:'hardware',image:''},
-{id:'sunmi_k2_kiosk',name:'Sunmi K2 Kiosk',group:'hardware',image:''},
-{id:'imin_cran_kiosk',name:'iMin Cran Kiosk',group:'hardware',image:''},
-{id:'sunmi_p3_air',name:'Sunmi P3 Air Handheld',group:'hardware',image:''},
-{id:'sunmi_p3_dual',name:'Sunmi P3 Dual-Screen Handheld',group:'hardware',image:''},
-{id:'sunmi_kds',name:'Sunmi KDS',group:'accessories',image:''},
-{id:'imin_kds',name:'iMin KDS',group:'accessories',image:''},
-{id:'sunmi_nt311',name:'Sunmi NT311 Cloud Printer',group:'accessories',image:''},
-{id:'ice_lan_printer',name:'Ice Lan Receipt / Kitchen Printer',group:'accessories',image:''},
-{id:'cash_drawer',name:'Cash Drawer',group:'accessories',image:''}
-];
+  // Product image paths are relative to this website.
+  // Only the Sunmi T2s Dual Screen currently has an assigned image.
+  const products = [
+    {
+      id: 'sunmi_t2s_single',
+      name: 'Sunmi T2s Single Screen',
+      group: 'hardware',
+      image: ''
+    },
+    {
+      id: 'sunmi_t2s_dual',
+      name: 'Sunmi T2s Dual Screen',
+      group: 'hardware',
+      image: 'product-images/SUNMI%20POS%20Terminal%20Restaurant%20Interface(2).png'
+    },
+    {
+      id: 'imin_swan_1',
+      name: 'iMin Swan 1',
+      group: 'hardware',
+      image: ''
+    },
+    {
+      id: 'sunmi_c_pad_no_base',
+      name: 'Sunmi C-Pad Tablet (No Base)',
+      group: 'hardware',
+      image: ''
+    },
+    {
+      id: 'sunmi_c_pad_with_base',
+      name: 'Sunmi C-Pad Tablet (With Base)',
+      group: 'hardware',
+      image: ''
+    },
+    {
+      id: 'sunmi_k2_kiosk',
+      name: 'Sunmi K2 Kiosk',
+      group: 'hardware',
+      image: ''
+    },
+    {
+      id: 'imin_cran_kiosk',
+      name: 'iMin Cran Kiosk',
+      group: 'hardware',
+      image: ''
+    },
+    {
+      id: 'sunmi_p3_air',
+      name: 'Sunmi P3 Air Handheld',
+      group: 'hardware',
+      image: ''
+    },
+    {
+      id: 'sunmi_p3_dual',
+      name: 'Sunmi P3 Dual-Screen Handheld',
+      group: 'hardware',
+      image: ''
+    },
+    {
+      id: 'sunmi_kds',
+      name: 'Sunmi KDS',
+      group: 'accessories',
+      image: ''
+    },
+    {
+      id: 'imin_kds',
+      name: 'iMin KDS',
+      group: 'accessories',
+      image: ''
+    },
+    {
+      id: 'sunmi_nt311',
+      name: 'Sunmi NT311 Cloud Printer',
+      group: 'accessories',
+      image: ''
+    },
+    {
+      id: 'ice_lan_printer',
+      name: 'Ice Lan Receipt / Kitchen Printer',
+      group: 'accessories',
+      image: ''
+    },
+    {
+      id: 'cash_drawer',
+      name: 'Cash Drawer',
+      group: 'accessories',
+      image: ''
+    }
+  ];
 
-const quantities = Object.fromEntries(products.map(p => [p.id, 0]));
+  // Start every item at quantity zero.
+  const quantities = Object.fromEntries(
+    products.map(product => [product.id, 0])
+  );
 
-function createCard(p) {
-  const card = document.createElement('article');
-  card.className = 'product';
-  const thumb = document.createElement('div');
-  thumb.className = 'thumb';
+  function updateTotal() {
+    const total = Object.values(quantities)
+      .reduce((sum, quantity) => sum + quantity, 0);
 
-  if (p.image) {
-    const img = document.createElement('img');
-    img.src = p.image;
-    img.alt = p.name;
-    thumb.appendChild(img);
-  } else {
-    thumb.textContent = 'Product image';
+    document.getElementById('total').textContent =
+      total + ' unit' + (total === 1 ? '' : 's') + ' selected';
   }
 
-  const info = document.createElement('div');
-  info.className = 'prod-info';
-  const name = document.createElement('div');
-  name.className = 'prod-name';
-  name.textContent = p.name;
+  function createProductCard(product) {
+    const card = document.createElement('article');
+    card.className = 'product';
 
-  const qty = document.createElement('div');
-  qty.className = 'qty';
-  const minus = document.createElement('button');
-  minus.type = 'button';
-  minus.textContent = '−';
-  minus.setAttribute('aria-label', 'Decrease ' + p.name);
+    const imageBox = document.createElement('div');
+    imageBox.className = 'thumb';
 
-  const input = document.createElement('input');
-  input.type = 'number';
-  input.min = '0';
-  input.max = '999';
-  input.step = '1';
-  input.value = '0';
-  input.setAttribute('aria-label', p.name + ' quantity');
+    if (product.image) {
+      const img = document.createElement('img');
+      img.src = product.image;
+      img.alt = product.name;
 
-  const plus = document.createElement('button');
-  plus.type = 'button';
-  plus.textContent = '+';
-  plus.setAttribute('aria-label', 'Increase ' + p.name);
+      img.onerror = function () {
+        imageBox.textContent = 'Image not found';
+      };
 
-  function setQuantity(value) {
-    quantities[p.id] = Math.max(0, Math.min(999, Math.floor(Number(value) || 0)));
-    input.value = quantities[p.id];
-    updateTotal();
-  }
+      imageBox.appendChild(img);
+    } else {
+      imageBox.textContent = 'Product image';
+    }
 
-  minus.onclick = () => setQuantity(quantities[p.id] - 1);
-  plus.onclick = () => setQuantity(quantities[p.id] + 1);
-  input.onchange = () => setQuantity(input.value);
+    const info = document.createElement('div');
+    info.className = 'prod-info';
 
-  qty.append(minus, input, plus);
-  info.append(name, qty);
-  card.append(thumb, info);
-  return card;
-}
+    const name = document.createElement('div');
+    name.className = 'prod-name';
+    name.textContent = product.name;
 
-products.forEach(p => {
-  document.getElementById(p.group).appendChild(createCard(p));
-});
+    const quantityControls = document.createElement('div');
+    quantityControls.className = 'qty';
 
-function updateTotal() {
-  const total = Object.values(quantities).reduce((a, b) => a + b, 0);
-  document.getElementById('total').textContent =
-    total + ' unit' + (total === 1 ? '' : 's') + ' selected';
-}
-updateTotal();
+    const minus = document.createElement('button');
+    minus.type = 'button';
+    minus.textContent = '−';
+    minus.setAttribute('aria-label', 'Decrease ' + product.name);
 
-document.getElementById('form').addEventListener('submit', async event => {
-  event.preventDefault();
-  const status = document.getElementById('status');
-  const button = document.getElementById('submitBtn');
-  const businessName = document.getElementById('businessName').value.trim();
-  const packageType = document.querySelector('input[name="packageType"]:checked')?.value;
+    const input = document.createElement('input');
+    input.type = 'number';
+    input.min = '0';
+    input.max = '999';
+    input.step = '1';
+    input.value = '0';
+    input.setAttribute('aria-label', product.name + ' quantity');
 
-  if (!businessName || !packageType) {
-    status.textContent = 'Please enter the business name and choose a package.';
-    return;
-  }
+    const plus = document.createElement('button');
+    plus.type = 'button';
+    plus.textContent = '+';
+    plus.setAttribute('aria-label', 'Increase ' + product.name);
 
-  button.disabled = true;
-  status.textContent = 'Sending submission…';
+    function setQuantity(value) {
+      const number = Number(value);
 
-  const payload = {
-    businessName,
-    packageType,
-    quantities,
-    notes: document.getElementById('notes').value
-  };
+      quantities[product.id] = Math.max(
+        0,
+        Math.min(999, Math.floor(Number.isFinite(number) ? number : 0))
+      );
 
-  try {
-    await fetch(API_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: {'Content-Type': 'text/plain;charset=utf-8'},
-      body: JSON.stringify(payload)
+      input.value = quantities[product.id];
+      updateTotal();
+    }
+
+    minus.addEventListener('click', function () {
+      setQuantity(quantities[product.id] - 1);
     });
-    status.textContent = 'Request sent. Please verify the row appears in your Google Sheet.';
-  } catch (error) {
-    status.textContent = 'Could not send. Check the Apps Script URL and access settings.';
-  } finally {
-    button.disabled = false;
+
+    plus.addEventListener('click', function () {
+      setQuantity(quantities[product.id] + 1);
+    });
+
+    input.addEventListener('change', function () {
+      setQuantity(input.value);
+    });
+
+    quantityControls.append(minus, input, plus);
+    info.append(name, quantityControls);
+    card.append(imageBox, info);
+
+    return card;
   }
-});
+
+  // Render all products.
+  products.forEach(function (product) {
+    document.getElementById(product.group)
+      .appendChild(createProductCard(product));
+  });
+
+  updateTotal();
+
+  // Send the selection to Google Apps Script.
+  document.getElementById('form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const status = document.getElementById('status');
+    const button = document.getElementById('submitBtn');
+
+    const businessName = document.getElementById('businessName').value.trim();
+    const selectedPackage = document.querySelector(
+      'input[name="packageType"]:checked'
+    );
+
+    if (!businessName || !selectedPackage) {
+      status.textContent = 'Please enter your business name and choose a package.';
+      return;
+    }
+
+    const payload = {
+      businessName: businessName,
+      packageType: selectedPackage.value,
+      quantities: quantities,
+      notes: document.getElementById('notes').value.trim()
+    };
+
+    button.disabled = true;
+    status.textContent = 'Sending your selection…';
+
+    try {
+      /*
+       * no-cors prevents the browser from reading the Apps Script response.
+       * Therefore, a successful fetch does not confirm that the row was saved.
+       */
+      await fetch(API_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      status.textContent =
+        'Request sent. Please verify that the submission appears in your Google Sheet.';
+    } catch (error) {
+      status.textContent =
+        'Could not send the request. Check the Apps Script URL and deployment access settings.';
+    } finally {
+      button.disabled = false;
+    }
+  });
 </script>
 </body>
 </html>
